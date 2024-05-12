@@ -6,3 +6,6 @@ description.workspace = true
 
 [lib]
 name = "real_engine"
+
+[dependencies]
+glfw.workspace = true

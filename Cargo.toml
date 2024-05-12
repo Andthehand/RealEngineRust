@@ -9,3 +9,18 @@ description = "A rebuild of my game C++ real_engine game engine in rust."
 
 [workspace.dependencies]
 real_engine = { path = "real_engine" }
+glfw = "0.55.0"
+
+[profile.dev]
+opt-level = 0
+debug = true
+strip = false
+panic = 'unwind'
+codegen-units = 256
+
+[profile.release]
+opt-level = 3
+debug = false
+strip = true
+panic = 'unwind'
+codegen-units = 16
