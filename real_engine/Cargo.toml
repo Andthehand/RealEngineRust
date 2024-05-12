@@ -1,0 +1,8 @@
+[package]
+name = "real_engine"
+version.workspace = true
+authors.workspace = true
+description.workspace = true
+
+[lib]
+name = "real_engine"

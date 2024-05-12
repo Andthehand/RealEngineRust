@@ -1,0 +1,11 @@
+[workspace]
+members = ["app"]
+resolver = "2"
+
+[workspace.package]
+version = "0.0.1"
+authors = ["Andrew DeFord"]
+description = "A rebuild of my game C++ real_engine game engine in rust."
+
+[workspace.dependencies]
+real_engine = { path = "real_engine" }
