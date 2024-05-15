@@ -1,11 +1,11 @@
 extern crate real_engine;
-use real_engine::Application;
-use real_engine::window;
+use real_engine::{core::window::Window, Application};
 
 fn main() {
-    let app = Application{ message: String::from("Hello RealEngine!") };
+    let app: Application = Application{ message: String::from("Hello RealEngine!") };
 
     app.real_print();
 
-    window::create_window();
+    let window: Box<dyn Window> = real_engine::core::window::create();
+    window.create_window();
 }
