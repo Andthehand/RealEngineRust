@@ -3,73 +3,48 @@ use std::sync::{Arc, OnceLock};
 
 use spdlog::{critical, error, formatter::{pattern, PatternFormatter}, info, sink::{FileSink, Sink, StdStream, StdStreamSink}, terminal_style::StyleMode, trace, warn};
 
+fn create_logger(name: &str) -> Arc<spdlog::Logger> {
+    let new_formatter: Box<PatternFormatter<_>> = Box::new(PatternFormatter::new(pattern!(
+        "{^[{time}] {logger}: {payload}} {eol}"
+    )));
 
+    let mut sinks: Vec<Arc<dyn Sink>> = Vec::new();
+    sinks.push( Arc::new(
+        StdStreamSink::builder()
+            .std_stream(StdStream::Stdout)
+            .formatter(new_formatter.clone())
+            .style_mode(StyleMode::Always)
+            .build().unwrap()
+    ));
+    sinks.push( Arc::new(
+        FileSink::builder()
+            .truncate(true)
+            .formatter(new_formatter)
+            .path("logs/RealEngine.log")
+            .build().unwrap()
+    ));
+
+    return Arc::new(
+        spdlog::Logger::builder()
+            .name(name)
+            .sinks(sinks.clone())
+            .level_filter(spdlog::LevelFilter::All)
+            .build().unwrap()
+    );
+}
+
+#[doc(hidden)]
 pub fn get_core_logger() -> &'static Arc<spdlog::Logger> {
     static LOG: OnceLock<Arc<spdlog::Logger>> = OnceLock::new();
 
-    &LOG.get_or_init(|| {
-        let new_formatter: Box<PatternFormatter<_>> = Box::new(PatternFormatter::new(pattern!(
-            "{^[{time}] {logger}: {payload}} {eol}"
-        )));
-
-        let mut sinks: Vec<Arc<dyn Sink>> = Vec::new();
-        sinks.push( Arc::new(
-            StdStreamSink::builder()
-                .std_stream(StdStream::Stdout)
-                .formatter(new_formatter.clone())
-                .style_mode(StyleMode::Always)
-                .build().unwrap()
-        ));
-        sinks.push( Arc::new(
-            FileSink::builder()
-                .truncate(true)
-                .formatter(new_formatter)
-                .path("logs/RealEngine.log")
-                .build().unwrap()
-        ));
-
-        return Arc::new(
-            spdlog::Logger::builder()
-                .name("RealEngine")
-                .sinks(sinks.clone())
-                .level_filter(spdlog::LevelFilter::All)
-                .build().unwrap()
-        );
-    } )
+    &LOG.get_or_init(|| create_logger("RealEngine") )
 }
 
+#[doc(hidden)]
 pub fn get_client_logger() -> &'static Arc<spdlog::Logger> {
     static LOG: OnceLock<Arc<spdlog::Logger>> = OnceLock::new();
 
-    &LOG.get_or_init(|| {
-        let new_formatter: Box<PatternFormatter<_>> = Box::new(PatternFormatter::new(pattern!(
-            "{^[{time}] {logger}: {payload}} {eol}"
-        )));
-
-        let mut sinks: Vec<Arc<dyn Sink>> = Vec::new();
-        sinks.push( Arc::new(
-            StdStreamSink::builder()
-                .std_stream(StdStream::Stdout)
-                .formatter(new_formatter.clone())
-                .style_mode(StyleMode::Always)
-                .build().unwrap()
-        ));
-        sinks.push( Arc::new(
-            FileSink::builder()
-                .truncate(true)
-                .formatter(new_formatter)
-                .path("logs/RealEngine.log")
-                .build().unwrap()
-        ));
-
-        return Arc::new(
-            spdlog::Logger::builder()
-                .name("APP")
-                .sinks(sinks.clone())
-                .level_filter(spdlog::LevelFilter::All)
-                .build().unwrap()
-        );
-    } )
+    &LOG.get_or_init(|| create_logger("APP") )
 }
 
 
