@@ -1,11 +1,20 @@
+//This is needed for a custom entry_point in the library
+#![no_main]
 extern crate real_engine;
-use real_engine::{core::window::Window, Application};
+use real_engine::{core::window::{self, Window}, core::application::Application};
 
-fn main() {
-    let app: Application = Application{ message: String::from("Hello RealEngine!") };
+struct App {
 
-    app.real_print();
+}
 
-    let window: Box<dyn Window> = real_engine::core::window::create();
-    window.create_window();
+impl Application for App {
+    fn run(&self) {
+        let my_window: Box<dyn Window> = window::create();
+        my_window.create_window();
+    }
+}
+
+#[no_mangle]
+fn create_application() -> Box<dyn Application> {
+    return Box::new(App {});
 }
