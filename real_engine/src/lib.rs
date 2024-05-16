@@ -9,4 +9,5 @@ pub mod core {
     pub mod application;
     pub mod window;
     pub mod entry_point;
+    pub mod log;
 }

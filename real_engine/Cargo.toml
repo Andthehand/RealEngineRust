@@ -1,5 +1,6 @@
 [package]
 name = "real_engine"
+edition.workspace = true
 version.workspace = true
 authors.workspace = true
 description.workspace = true
@@ -9,3 +10,4 @@ name = "real_engine"
 
 [dependencies]
 glfw.workspace = true
+spdlog-rs.workspace = true

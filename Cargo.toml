@@ -6,10 +6,12 @@ resolver = "2"
 version = "0.0.1"
 authors = ["Andrew DeFord"]
 description = "A rebuild of my game C++ real_engine game engine in rust."
+edition = "2021"
 
 [workspace.dependencies]
 real_engine = { path = "real_engine" }
 glfw = "0.55.0"
+spdlog-rs = "0.3.13"
 
 [profile.dev]
 opt-level = 0
