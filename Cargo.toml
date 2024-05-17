@@ -12,6 +12,7 @@ edition = "2021"
 real_engine = { path = "real_engine" }
 glfw = "0.55.0"
 spdlog-rs = "0.3.13"
+gl = "0.14.0"
 
 [profile.dev]
 opt-level = 0

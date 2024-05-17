@@ -12,7 +12,27 @@
                 "args": [
                     "build",
                     "--bin=app",
-                    "--package=app"
+                    "--package=app",
+                    "--profile=dev"
+                ],
+                "filter": {
+                    "name": "app",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Release executable 'app'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=app",
+                    "--package=app",
+                    "--profile=release"
                 ],
                 "filter": {
                     "name": "app",

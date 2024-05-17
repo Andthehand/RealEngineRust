@@ -11,3 +11,4 @@ name = "real_engine"
 [dependencies]
 glfw.workspace = true
 spdlog-rs.workspace = true
+gl.workspace = true
