@@ -2,22 +2,28 @@ extern crate glfw;
 
 use self::glfw::{Action, Context, Key};
 
-use crate::core::window::Window;
+use crate::core::window::{Window, WindowProps};
 
 pub struct WindowsWindow {
 
 }
 
 impl Window for WindowsWindow {
-    fn create_window(&self) {
+    fn create_window(&self, window_props: WindowProps) {
         let mut glfw: glfw::Glfw = glfw::init(glfw::fail_on_errors).unwrap();
     
-        let (mut window, events) = glfw.create_window(300, 300, "Hello this is window", glfw::WindowMode::Windowed)
+        #[cfg(debug_assertions)]
+        glfw.window_hint(glfw::WindowHint::OpenGlDebugContext(true));
+        glfw.window_hint(glfw::WindowHint::Maximized(window_props.maximized));
+
+        let (mut window, events) = glfw.create_window(window_props.width, window_props.height, &window_props.title, glfw::WindowMode::Windowed)
             .expect("Failed to create GLFW window.");
     
         window.set_key_polling(true);
         window.make_current();
-    
+        
+
+
         while !window.should_close() {
             glfw.poll_events();
             for (_, event) in glfw::flush_messages(&events) {

@@ -9,8 +9,8 @@ extern "Rust" {
 #[no_mangle]
 pub fn main() {
     re_core_trace!("Starting RealEngine");
-    
+
     let app: Box<dyn Application> = unsafe { create_application() };
 
-    app.run();
+    app.init();
 }
