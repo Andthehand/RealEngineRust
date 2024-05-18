@@ -2,10 +2,14 @@ use crate::core::window::{self, Window};
 
 use super::window::WindowProps;
 
-pub trait Application {
-    fn init(&self) {
-        let my_window: Box<dyn Window> = window::create(self.get_window_props());
-    }
+pub struct Application {
+    window: Box<dyn Window>
+}
 
-    fn get_window_props(&self) -> WindowProps;
+impl Application {
+    pub fn new(window_props: WindowProps) -> Self{
+        let my_window: Box<dyn Window> = window::create(window_props);
+
+        return Application { window: my_window };
+    }
 }
