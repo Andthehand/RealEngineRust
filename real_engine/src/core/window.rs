@@ -8,11 +8,11 @@ pub struct WindowProps {
 }
 
 pub trait Window {
-    fn create_window(&self, window_props: WindowProps);
+
 }
 
 //This will error if compiling for anything other than windows
-pub fn create() -> Box<dyn Window> {
+pub fn create(window_props: WindowProps) -> Box<dyn Window> {
     #[cfg(target_os = "windows")]
-    return Box::new(WindowsWindow {});
+    return Box::new(WindowsWindow::new(window_props));
 }

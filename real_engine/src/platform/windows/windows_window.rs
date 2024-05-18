@@ -1,15 +1,17 @@
 extern crate glfw;
 
+use glfw::PWindow;
+
 use self::glfw::{Action, Context, Key};
 
 use crate::core::window::{Window, WindowProps};
 
 pub struct WindowsWindow {
-
+    window_handle: PWindow,
 }
 
-impl Window for WindowsWindow {
-    fn create_window(&self, window_props: WindowProps) {
+impl WindowsWindow {
+    pub fn new(window_props: WindowProps) -> Self {
         let mut glfw: glfw::Glfw = glfw::init(glfw::fail_on_errors).unwrap();
     
         #[cfg(debug_assertions)]
@@ -21,8 +23,8 @@ impl Window for WindowsWindow {
     
         window.set_key_polling(true);
         window.make_current();
-        
 
+        gl::load_with(|symbol| window.get_proc_address(symbol) as *const _);
 
         while !window.should_close() {
             glfw.poll_events();
@@ -30,7 +32,17 @@ impl Window for WindowsWindow {
                 handle_window_event(&mut window, event);
             }
         }
+
+        return WindowsWindow { window_handle: window };
     }
+
+    fn swap_buffer(&mut self) {
+        self.window_handle.swap_buffers();
+    }
+}
+
+impl Window for WindowsWindow {
+
 }
 
 fn handle_window_event(window: &mut glfw::Window, event: glfw::WindowEvent) {

@@ -12,5 +12,6 @@ pub fn main() {
 
     let app: Box<dyn Application> = unsafe { create_application() };
 
+    //Creates a window and inits opengl
     app.init();
 }
